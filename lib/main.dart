@@ -30,9 +30,13 @@ class TapNumberGamePage extends StatefulWidget {
 
 class TapNumberGamePageState extends State<TapNumberGamePage> {
   List<int> numbers = [];
+
   int currentNumber = 1;
+
   late Timer _timer;
+
   int _elapsedSeconds = 0;
+
   bool _isRunning = false;
 
   @override
@@ -47,6 +51,7 @@ class TapNumberGamePageState extends State<TapNumberGamePage> {
     super.dispose();
   }
 
+  /// Method used to generate numbers
   void _generateNumbers() {
     numbers.clear();
     for (int i = 1; i <= 25; i++) {
@@ -55,7 +60,8 @@ class TapNumberGamePageState extends State<TapNumberGamePage> {
     numbers.shuffle();
   }
 
-  void _toggleTimer() {
+  /// Timer used to calculate the time spend in completing the game
+  void _gameTimer() {
     setState(() {
       if (_isRunning) {
         _timer.cancel();
@@ -69,6 +75,7 @@ class TapNumberGamePageState extends State<TapNumberGamePage> {
     });
   }
 
+  /// Method to start the timer and change the seconds value
   void _startTimer() {
     _timer = Timer.periodic(const Duration(seconds: 1), (timer) {
       setState(() {
@@ -77,6 +84,7 @@ class TapNumberGamePageState extends State<TapNumberGamePage> {
     });
   }
 
+  /// Method to handle the tap of the right number
   void _handleTap(int tappedNumber) {
     if (_isRunning && tappedNumber == currentNumber + 1) {
       setState(() {
@@ -121,7 +129,10 @@ class TapNumberGamePageState extends State<TapNumberGamePage> {
             padding: EdgeInsets.all(8.0),
             child: Text(
               'Tap the numbers in ascending order!',
-              style: TextStyle(fontSize: 18.0, fontWeight: FontWeight.bold),
+              style: TextStyle(
+                fontSize: 18.0,
+                fontWeight: FontWeight.bold,
+              ),
             ),
           ),
           Expanded(
@@ -165,7 +176,7 @@ class TapNumberGamePageState extends State<TapNumberGamePage> {
             ),
           ),
           ElevatedButton(
-            onPressed: _toggleTimer,
+            onPressed: _gameTimer,
             style: ButtonStyle(
               backgroundColor: MaterialStateProperty.all<Color>(
                   _isRunning ? Colors.red : Colors.green),
